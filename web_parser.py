@@ -36,18 +36,40 @@ class Parser:
 
     def get_image_article(self):
         article = self.soup.find('article')
+        img = self.soup.find('img')
+
         if article:
             img = article.find('img')
             return img.get('src')
+        elif img:
+            return img.get('src')
+
         return 'NotFound'
 
     def get_text_article(self):
         article = self.soup.find('article')
+        main = self.soup.find('main')
+
         if article:
-            paragraphs = article.find_all('p')
-            article_text = '\n'.join([p.text for p in paragraphs if len(p.text) > 35])
-            return article_text
+            return Parser.get_text_from_html(article)
+
+        elif main:
+            return Parser.get_text_from_html(main)
+
         return 'NotFound\n'
+
+    @staticmethod
+    def get_text_from_html(html):
+        text = html.findAll(['h2', 'p'])
+        result = []
+
+        for line in text:
+            if line.name == 'h2':
+                result.append(line.text)
+            elif len(line.text) > 35:
+                result.append(line.text)
+
+        return '\n'.join(result)
 
 
 if __name__ == '__main__':
@@ -61,7 +83,7 @@ if __name__ == '__main__':
         try:
             print(f'\nЗаголовок сайта: {parser.title}\n')
             print(f'Ссылка на первое изображение в статье: {parser.first_image}\n')
-            print(f'Текст статьи:\n\n{parser.text_article}')
+            print(f'Текст статьи:\n\n{parser.text_article}\n')
         except AttributeError:
             pass
 
