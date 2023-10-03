@@ -47,22 +47,22 @@ class Parser:
             paragraphs = article.find_all('p')
             article_text = '\n'.join([p.text for p in paragraphs if len(p.text) > 35])
             return article_text
-        return 'NotFound'
+        return 'NotFound\n'
 
 
 if __name__ == '__main__':
-
     while True:
-        url = input('Введите url адрес: ')
+        url = input('Введите url адрес (или "Стоп" для выхода): ')
+
+        if url.lower() == 'стоп' or url.lower() == 'cnjg':
+            break
+
         parser = Parser(url)
         try:
             print(f'\nЗаголовок сайта: {parser.title}\n')
             print(f'Ссылка на первое изображение в статье: {parser.first_image}\n')
-            print(f'Текс статьи:\n\n{parser.text_article}')
+            print(f'Текст статьи:\n\n{parser.text_article}')
         except AttributeError:
             pass
 
-        flag = input('\nДля остановки скрипта введите: "Стоп"\nЧтобы продолжить нажмите ENTER\n').lower()
-
-        if flag == 'стоп' or flag == 'cnjg':
-            break
+    input('\nНажмите Enter, чтобы закрыть программу')
