@@ -62,5 +62,7 @@ if __name__ == '__main__':
         except AttributeError:
             pass
 
-        if input('\nДля остановки скрипта введите: "Стоп"\nЧтобы продолжить нажмите ENTER').lower() == 'стоп':
+        flag = input('\nДля остановки скрипта введите: "Стоп"\nЧтобы продолжить нажмите ENTER\n').lower()
+
+        if flag == 'стоп' or flag == 'cnjg':
             break
