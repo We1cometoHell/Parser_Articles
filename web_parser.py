@@ -47,14 +47,13 @@ class Parser:
         return 'NotFound'
 
     def get_text_article(self):
-        article = self.soup.find('article')
-        main = self.soup.find('main')
+        tags = ['article', 'main', 'body']
 
-        if article:
-            return Parser.get_text_from_html(article)
+        for tag in tags:
+            html = self.soup.find(tag)
 
-        elif main:
-            return Parser.get_text_from_html(main)
+            if html:
+                return Parser.get_text_from_html(html)
 
         return 'NotFound\n'
 
